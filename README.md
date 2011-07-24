@@ -1,10 +1,12 @@
 # iRail
 
-This is the iRail Git repo.
+This is the iRail Git repository. This is the thedatatank branch. The only thing in here is a module for http://github.com/iRail/The-DataTank. For the API framework, check that page. If you're curious how we've written the iRail data collector, this is the right repository.
 
 iRail is an attempt to make transportation time schedules easily available for anyone. 
 
 We are doing this by creating an Application Programming Interface. This interface is implemented in PHP and can be reused by various of other projects.
+
+
 
 Our main site consists of a very easy mobile website to look up time schedules using our own API.
 
