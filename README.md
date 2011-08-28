@@ -4,17 +4,20 @@ For The DataTank (TDT) see next chapter. We created a module upon our own generi
 
 What this module can do:
  * It handles data from:
-    * NMBS
-    * NS
-    * De Lijn
-    * MIVB
-    * All kinds of GTFS
-    * ... more to come
+
+  - NMBS
+  - NS
+  - De Lijn
+  - MIVB
+  - All kinds of GTFS
+  - ... more to come
+
  * It creates a RESTful API for
-    * Liveboard: live departure and arrival times
-    * Connections: a route from A to B
-    * Vehicle: realtime information about a certain vehicle
-    * Stations: station information
+
+  - Liveboard: live departure and arrival times
+  - Connections: a route from A to B
+  - Vehicle: realtime information about a certain vehicle
+  - Stations: station information
 
 # The DataTank
 

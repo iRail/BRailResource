@@ -1,8 +1,10 @@
 <?php
-  /** Copyright (C) 2011 by iRail vzw/asbl
+  /** 
+   *
    * This is a class with static tools for you to use on the NMBS scraper. It contains stuff that is needed by all other classes
    *
-   * @package data/NMBS
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @package modules/NMBS
    */
 
 class tools{
@@ -61,6 +63,6 @@ class tools{
 	  }
 	  return $hours. ":" . $minutes;	  
      } 
-  }
+}
 
 ?>

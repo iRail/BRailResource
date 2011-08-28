@@ -1,29 +1,25 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
+/**
+ * Copyright (C) 2011 by iRail vzw/asbl
  *
- * Author: Jan Vansteenlandt <jan aŧ iRail.be>
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * License: AGPLv3
+ * @author Jan Vansteenlandt <jan aŧ iRail.be>
+ * @author Pieter Colpaert <pieter aŧ iRail.be>
+ * @license AGPLv3
  *
- * This file is currently being used for testpurposes. It returns some testdata we use for our analysis tool. (stats.php)
  */
+include_once("modules/NMBS/Stations.class.php");
+include_once("modules/iRailTools.class.php");
 
-include_once("modules/AMethod.php");
-include_once("modules/iRail/Stations.class.php");
-include_once("modules/iRail/iRailTools.class.php");
-
-class Liveboard extends AMethod{
+class Liveboard extends AResource{
 
      private $lang;
      private $system;
      private $time;
      private $direction;
      private $date;
-     private $station;
-     
+     private $station;     
 
      public function __construct(){
-	  parent::__construct("Liveboard");
 	  $this->time = date("H:i");	  
 	  $this->direction = "departures";
      }
@@ -77,10 +73,11 @@ class Liveboard extends AMethod{
 	  }
 	  
 	  $request = TDT::HttpRequest($url);
-	  //var_dump($request);
-      error_log('The Data: ' . $request->data);
+          if(isset($request->error)){
+              throw new HttpOutTDTException($url);
+          }
+          
 	  $object = simplexml_load_string($request->data);
-	  
 	  
 	  return $object;
 	  
@@ -101,7 +98,6 @@ return $dummyresult;*/
      }
 
 /**
- * Small algorithm I wrote:
  * It will remove the duplicates from an array the php way. Since a PHP array will need to recopy everything to be reindexed, I figured this would go faster if we did the deleting when copying.
  */
      private static function removeDuplicates($nodes){
@@ -130,6 +126,5 @@ return $dummyresult;*/
 	  return "Liveboard will return the next arrivals or departures in a station.";
      }
 }
-
 
 ?>

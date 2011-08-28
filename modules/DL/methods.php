@@ -8,8 +8,7 @@
 
 class DL{
      public static $methods = array (
-	  "Stations",
-	  "Liveboard"
+
 	  );
 }
 ?>

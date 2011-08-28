@@ -1,59 +1,52 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * License: AGPLv3
+/**
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @author  Pieter Colpaert <pieter aŧ iRail.be>
+ * @license  AGPLv3
  *
  * Lists all stations for a certain system
  */
 
-include_once("modules/AMethod.php");
+class Stations extends AResource{
 
-class Stations extends AMethod{
+    private $lang = "EN";
 
-     private $lang,$system = "NMBS";
+    /**
+     * If language has not been given, just return the english ones
+     */
+    public static function getParameters(){
+	return array("lang" => "Language for the stations");
+    }
 
-     public function __construct(){
-	  parent::__construct("Stations");
-     }
+    /**
+     * No required parameters for the stations resource
+     */
+    public static function getRequiredParameters(){
+	return array();
+    }
 
-     public static function getParameters(){
-	  return array("lang" => "Language for the stations",
-		       "system" => "The name of the public transport company: for instance De Lijn, or NMBS"
-	       );
-     }
+    public function setParameter($key,$val){
+	if($key == "lang"){
+	    $this->lang = $val;
+	}
+    }
 
-     public static function getRequiredParameters(){
-	  return array();
-     }
+    /**
+     * This function should get all stations from the NMBS/SNCB and return them.
+     * Can't we get all information from DBPedia?
+     * Does Open Street Map has a SPARQL end-point?
+     */
+    public function call(){
+        return new StdClass();
+    }
 
-     public function setParameter($key,$val){
-	  if($key == "lang"){
-	       $this->lang = $val;
-	  }
+    public static function getAllowedPrintMethods(){
+	return array("xml","json","php", "jsonp","html", "kml");
+    }
 
-	  if($key == "system"){
-	       if(in_array($val,iRailTools::ALLOWED_SYSTEMS)){
-		    $this->system = $val;
-	       }
-	  }
-     }
-
-     public function call(){
-	  $o = new StdClass();
-	  
-	  $o->stations[] 
-	  return $o;
-     }
-
-     public static function getAllowedPrintMethods(){
-	  return array("xml","json","php", "jsonp","html");
-     }
-     
-
-     public static function getDoc(){
-	  return "Stations will return a list of all known stops of a system";
-     }
+    public static function getDoc(){
+	return "Stations will return a list of all known stops of a system";
+    }
 }
 
 ?>

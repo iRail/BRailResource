@@ -7,8 +7,6 @@
  */
 class NS{
      public static $methods = array (
-	  "Stations",
-	  "Liveboard"
 	  );
 }
 

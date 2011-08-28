@@ -7,14 +7,13 @@
  */
 class MIVB{
      public static $methods = array (
-	  "Stations",
-	  "Liveboard"
 	  );
+     
 }
 
 
 //alias
-class STIB{
+class STIB extends MIVB{
      
 }
 
