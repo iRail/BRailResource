@@ -11,7 +11,7 @@
 include_once (dirname(__FILE__) . "/Stations.class.php");
 include_once (dirname(__FILE__) . "/../iRailLiveboard.class.php");
 
-class Liveboard extends IRailLiveboard {
+class NMBSLiveboard extends IRailLiveboard {
     
     private $system;
     

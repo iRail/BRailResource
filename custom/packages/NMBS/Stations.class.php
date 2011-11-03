@@ -10,7 +10,7 @@
 
 include_once (dirname(__FILE__) . "/../iRailStations.class.php");
 
-class Stations extends iRailStations {
+class NMBSStations extends iRailStations {
     
     /**
      * This function should get all stations from the NMBS/SNCB and return them.

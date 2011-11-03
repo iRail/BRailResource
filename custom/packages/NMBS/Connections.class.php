@@ -11,7 +11,7 @@
 include_once (dirname(__FILE__) . "/Stations.class.php");
 include_once (dirname(__FILE__) . "/../iRailConnections.class.php");
 
-class Connections extends iRailConnections {
+class NMBSConnections extends iRailConnections {
     
     private $typeOfTransport;
     private $results;

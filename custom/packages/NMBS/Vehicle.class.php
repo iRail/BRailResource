@@ -12,7 +12,7 @@ include_once (dirname(__FILE__) . "/Stations.class.php");
 include_once (dirname(__FILE__) . "/../iRailVehicle.class.php");
 include_once (dirname(__FILE__) . "/simple_html_dom.php");
 
-class Vehicle extends iRailVehicle {
+class NMBSVehicle extends iRailVehicle {
     
     private $html;
     

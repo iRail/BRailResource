@@ -12,7 +12,7 @@
 include_once (dirname(__FILE__) . "/../iRailLiveboard.class.php");
 include_once (dirname(__FILE__) . "/Stations.class.php");
 
-class Liveboard extends iRailLiveboard {
+class AirsportsLiveboard extends iRailLiveboard {
     
     public function call() {
         $o = new stdClass();
