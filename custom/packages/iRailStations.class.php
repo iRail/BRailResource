@@ -36,10 +36,6 @@ class iRailStations extends AResource {
     
     public function call() {}
     
-    public static function getAllowedPrintMethods() {
-        return array("xml", "json", "php", "jsonp", "html", "kml");
-    }
-    
     public static function getDoc() {
         return "Stations will return a list of all known stops of a system";
     }

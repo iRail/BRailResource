@@ -29,7 +29,7 @@ class NMBSLiveboard extends IRailLiveboard {
         
         $o = new stdClass();
         
-        $station = Stations::getStationFromName($this->location, $this->lang);
+        $station = NMBSStations::getStationFromName($this->location, $this->lang);
         $stationId = $station->id;
         
         // remove unwatend properties
@@ -101,7 +101,7 @@ class NMBSLiveboard extends IRailLiveboard {
             
             // TODO detect platform changed
             
-            $station = Stations::getStationFromName($station, $lang);
+            $station = NMBSStations::getStationFromName($station, $lang);
             $direction = $station->name;
             
             $time = $departure->getTimestamp();

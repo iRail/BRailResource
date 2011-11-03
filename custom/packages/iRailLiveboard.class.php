@@ -103,10 +103,6 @@ abstract class iRailLiveboard extends AResource {
     
     public function call() {}
     
-    public static function getAllowedPrintMethods() {
-        return array("xml", "json", "php", "jsonp");
-    }
-    
     public static function getDoc() {
         return "Liveboard will return the next arrivals or departures in a specific station.";
     }

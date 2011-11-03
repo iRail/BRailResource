@@ -47,7 +47,7 @@ class NMBSConnections extends iRailConnections {
     }
     
     public static function connectionsBetween($from, $to, $lang, $datetime, $results, $timeSel, $typeOfTransport) {
-        $stations = Stations::getStationsFromName(array($from, $to));
+        $stations = NMBSStations::getStationsFromName(array($from, $to));
         
         $url = "http://hari.b-rail.be/Hafas/bin/extxml.exe";
         
@@ -171,7 +171,7 @@ class NMBSConnections extends iRailConnections {
                                     $trains[$j] = str_replace(" ", "", $att->Attribute->AttributeVariant->Text);
                                     $j++;
                                 } else if ($att->Attribute["type"] == "DIRECTION") {
-                                    $directions[$k] = Stations::getStationFromName(trim($att->Attribute->AttributeVariant->Text), $lang)->name;
+                                    $directions[$k] = NMBSStations::getStationFromName(trim($att->Attribute->AttributeVariant->Text), $lang)->name;
                                     $k++;
                                 }
                             }
@@ -201,7 +201,7 @@ class NMBSConnections extends iRailConnections {
                                 $vias[$connectionindex]->timeBetween = $departTime - $arrivalTime;
                                 $vias[$connectionindex]->direction = $directions[$k - 1];
                                 $vias[$connectionindex]->vehicle = "BE.NMBS." . $trains[$j - 1];
-                                $station = Stations::getStationFromName($connsection->Arrival->BasicStop->Station['name'], $lang);
+                                $station = NMBSStations::getStationFromName($connsection->Arrival->BasicStop->Station['name'], $lang);
                                 
                                 // remove unwanted properties
                                 unset($station->id);

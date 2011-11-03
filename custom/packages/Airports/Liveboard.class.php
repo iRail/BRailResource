@@ -12,12 +12,12 @@
 include_once (dirname(__FILE__) . "/../iRailLiveboard.class.php");
 include_once (dirname(__FILE__) . "/Stations.class.php");
 
-class AirsportsLiveboard extends iRailLiveboard {
+class AirportsLiveboard extends iRailLiveboard {
     
     public function call() {
         $o = new stdClass();
         
-        $airport = Stations::getAirportFromCode($this->location);
+        $airport = AirportsStations::getAirportFromCode($this->location);
         
         // remove unwanted properties
         unset($airport->code);
@@ -74,7 +74,7 @@ class AirsportsLiveboard extends iRailLiveboard {
             //$direction = (string) $flight->Destination["Name"];
             
             // use external info
-            $airport = Stations::getAirportFromCode((string) $flight->Destination["AirportCode"]);
+            $airport = AirportsStations::getAirportFromCode((string) $flight->Destination["AirportCode"]);
             $direction = $airport->name;
             
             if(isset($flight->Airline["IATACode"]))

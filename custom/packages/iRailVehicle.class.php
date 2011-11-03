@@ -38,10 +38,6 @@ class iRailVehicle extends AResource {
     
     public function call() {}
     
-    public static function getAllowedPrintMethods() {
-        return array("xml", "json", "php", "jsonp");
-    }
-    
     public static function getDoc() {
         return "Return vehicle information";
     }

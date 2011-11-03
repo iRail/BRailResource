@@ -48,7 +48,7 @@ class NMBSVehicle extends iRailVehicle {
         $vehicle->name = "BE.NMBS." . $id;
         
         if (isset($station)) {
-            $now = Stations::getStationFromName($station, $lang);
+            $now = NMBSStations::getStationFromName($station, $lang);
             $vehicle->locationX = $now->locationX;
             $vehicle->locationY = $now->locationY;
         } else {
