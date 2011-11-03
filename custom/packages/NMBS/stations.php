@@ -45,6 +45,10 @@ class stations
 
      public static function getStationFromID($id, $lang){
 	  APICall::connectToDB();
+          $idarray = explode(".",$id);
+	  if(sizeof($idarray) > 0){
+		$id=$idarray[2];
+	  }
 	  $station;
 	  try {
 	       $lang = mysql_real_escape_string(strtoupper($lang));
@@ -66,7 +70,7 @@ class stations
 	  catch (Exception $e) {
 	       throw new Exception("Error reading from the database.", 300);
 	  }
-	  return $station;	  
+	  return $station;
      }
 
      public static function getStationFromName($name, $lang){
@@ -106,7 +110,10 @@ class stations
 	  $x= $m[1] . ".". $m[2];
 	  preg_match("/(..)(.*)/",$y, $m);
 	  $y = $m[1] . ".". $m[2];
-	  return stations::getStationFromLocation($x,$y,$lang);
+          $sss = stations::getStationFromLocation($x,$y,$lang);
+          preg_match("/externalStationNr=\"(.*?)\"/si", $idbody,$hafasid);
+          $sss->setHID($hafasid[1]);
+          return $sss;
      }
 
      public static function getStationFromRTName($name,$lang){
@@ -144,14 +151,16 @@ class stations
 	  try {
 	       $lang = mysql_real_escape_string(strtoupper($lang));
 	       $station->id = mysql_real_escape_string($station->id);
-	       $query = "SELECT `RT` FROM railtime WHERE `ID` = '$station->id'";
+	       $query = "SELECT `RT`, `RAILTIMENAME` FROM railtime WHERE `ID` = '$station->id'";
 	       $result = mysql_query($query) or die("Could not get stationslist from DB");
 	       $line = mysql_fetch_array($result, MYSQL_ASSOC);
-	       return $line["RT"];
+               $o = new stdClass();
+               $o->rtid = $line["RT"];
+               $o->rtname = $line["RAILTIMENAME"];
+	       return $o;
 	  }catch(Exception $e){
 	       throw new Exception("error getting RT ID", 3);
 	  }
-	  
      }
      
      

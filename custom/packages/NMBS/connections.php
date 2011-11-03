@@ -22,13 +22,13 @@ class connections{
 	       $to = stations::getStationFromID($request->getTo(), $request->getLang());
 	       $to = $to->name;
 	  }	  
-	  $dataroot->connection = connections::scrapeConnections($from, $to,$request->getTime(), $request->getDate(),$request->getResults(),$request->getLang(), $request->getTimeSel(), $request->getTypeOfTransport());
+	  $dataroot->connection = connections::scrapeConnections($from, $to,$request->getTime(), $request->getDate(),$request->getResults(),$request->getLang(), $request->getFast() , $request->getTimeSel(), $request->getTypeOfTransport());
      }
 
-     private static function scrapeConnections($from,$to, $time, $date, $results,$lang, $timeSel ="depart", $typeOfTransport = "trains"){
+     private static function scrapeConnections($from,$to, $time, $date, $results,$lang, $fast,$timeSel ="depart", $typeOfTransport = "trains"){
 	  $ids = connections::getHafasIDsFromNames($from,$to,$lang);
 	  $xml = connections::requestHafasXml($ids[0],$ids[1],$lang,$time,$date,$results,$timeSel,$typeOfTransport);
-	  return connections::parseHafasXml($xml, $lang);
+	  return connections::parseHafasXml($xml, $lang, $fast);
      }
 
 /**
@@ -123,7 +123,7 @@ class connections{
 
   
 
-     public static function parseHafasXml($serverData, $lang) {
+     public static function parseHafasXml($serverData, $lang, $fast) {
 	  $xml = new SimpleXMLElement($serverData);
 	  $connection = array();
 	  $i = 0;
@@ -192,7 +192,13 @@ class connections{
 					     $trains[$j] = str_replace(" ", "", $att->Attribute->AttributeVariant->Text);
 					     $j++;
 					}else if($att->Attribute["type"] == "DIRECTION"){
-					     $directions[$k] = stations::getStationFromName(trim($att->Attribute->AttributeVariant->Text), $lang);
+                                            $__stat = new Station();
+                                            if($fast == "true"){
+                                                $__stat->name = trim($att->Attribute->AttributeVariant->Text);
+                                            }else{
+                                                $__stat = stations::getStationFromName(trim($att->Attribute->AttributeVariant->Text), $lang);
+                                            }
+                                            $directions[$k] = $__stat;
 					     $k++;
 					}
 				   }
