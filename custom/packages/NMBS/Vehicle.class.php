@@ -49,11 +49,11 @@ class NMBSVehicle extends iRailVehicle {
         
         if (isset($station)) {
             $now = NMBSStations::getStationFromName($station, $lang);
-            $vehicle->locationX = $now->locationX;
-            $vehicle->locationY = $now->locationY;
+            $vehicle->longitude = $now->longitude;
+            $vehicle->latitude = $now->latitude;
         } else {
-            $vehicle->locationX = 0;
-            $vehicle->locationY = 0;
+            $vehicle->longitude = 0;
+            $vehicle->latitude = 0;
         }
         
         return $vehicle;
@@ -95,7 +95,7 @@ class NMBSVehicle extends iRailVehicle {
             
             $stop = new stdClass();
             $station = new stdClass();
-            $station = stations::getStationFromName($node->children(1)->first_child()->plaintext, $lang);
+            $station = NMBSStations::getStationFromName($node->children(1)->first_child()->plaintext, $lang);
             $stop->station = $station;
             $stop->delay = $delay;
             $stop->time = iRailTools::transformTime("00d" . $node->children(2)->first_child()->plaintext . ":00", date("Ymd"));
