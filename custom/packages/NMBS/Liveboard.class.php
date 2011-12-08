@@ -8,21 +8,10 @@
  *
  */
 
-include_once (dirname(__FILE__) . "/Stations.class.php");
-include_once (dirname(__FILE__) . "/../iRailLiveboard.class.php");
+include_once("custom/packages/NMBS/Stations.class.php");
+include_once("custom/packages/iRailLiveboard.class.php");
 
 class NMBSLiveboard extends IRailLiveboard {
-    
-    private $system;
-    
-    public function setParameter($key, $val) {
-        if ($key == "system" && in_array($val, iRailTools::ALLOWED_SYSTEMS)) {
-            $this->system = $val;
-        }
-        else {
-            parent::setParameter($key, $val);
-        }
-    }
     
     public function call() {
         ob_start();

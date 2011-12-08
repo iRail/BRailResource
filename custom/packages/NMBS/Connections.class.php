@@ -8,8 +8,8 @@
  *
  */
 
-include_once (dirname(__FILE__) . "/Stations.class.php");
-include_once (dirname(__FILE__) . "/../iRailConnections.class.php");
+include_once("custom/packages/NMBS/Stations.class.php");
+include_once("custom/packages/iRailConnections.class.php");
 
 class NMBSConnections extends iRailConnections {
     
