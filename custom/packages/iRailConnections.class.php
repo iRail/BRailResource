@@ -7,7 +7,7 @@
  * Lists all connections between 2 stations
  */
 
-include_once (dirname(__FILE__) . "/iRailTools.class.php");
+include_once ("custom/packages/iRailTools.class.php");
 
 class iRailConnections extends AResource {
     
@@ -62,7 +62,7 @@ class iRailConnections extends AResource {
 
         elseif ($key == "from" && $val != "") {
             $this->from = $val;
-        } 
+        }
 
         elseif ($key == "lang" && $val != "") {
             $this->lang = $val;
@@ -73,14 +73,10 @@ class iRailConnections extends AResource {
         }
     }
     
-    public function call() {}
-    
-    public static function getAllowedPrintMethods() {
-        return array("xml", "json", "php", "jsonp", "html");
-    }
+    public function call() {} // We will implement the Call function in the real function
     
     public static function getDoc() {
-        return "Get connections between 2 stations";
+        return "Get connections between 2 stations: data.iRail.be/Company/Connections/station1/station2";
     }
 }
 

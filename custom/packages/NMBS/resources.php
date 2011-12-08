@@ -9,7 +9,8 @@ class NMBS{
      public static $resources = array (
 	  "Stations",
 	  "Liveboard",
-      "Connections"
+      "Connections",
+	"Vehicle"
 	  );
 }
 

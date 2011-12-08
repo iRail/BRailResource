@@ -7,7 +7,7 @@
  *
  */
 
-include_once (dirname(__FILE__) . "/iRailTools.class.php");
+include_once "custom/packages/iRailTools.class.php");
 
 class iRailVehicle extends AResource {
     

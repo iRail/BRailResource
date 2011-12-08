@@ -7,7 +7,7 @@
  * Lists all stations for a certain system
  */
 
-include_once (dirname(__FILE__) . "/iRailTools.class.php");
+include_once "custom/packages/iRailTools.class.php");
 
 class iRailStations extends AResource {
     
