@@ -41,9 +41,8 @@ class NMBSConnections extends iRailConnections {
     }
     
     public function call() {
-        $o = new stdClass();
-        $o->connections = $this->connectionsBetween($this->from, $this->to, $this->lang, $this->datetime, $this->results, $this->timeSel, $this->typeOfTransport);
-        return $o;
+        
+        return $this->connectionsBetween($this->from, $this->to, $this->lang, $this->datetime, $this->results, $this->timeSel, $this->typeOfTransport);
     }
     
     public static function connectionsBetween($from, $to, $lang, $datetime, $results, $timeSel, $typeOfTransport) {
@@ -66,7 +65,7 @@ class NMBSConnections extends iRailConnections {
         } else {
             $timeSel = 1;
         }
-        
+        $result = 6;
         $post = '<?xml version="1.0 encoding="iso-8859-1"?>
             <ReqC ver="1.1" prod="iRail" lang="' . $lang . '">
             <ConReq>
