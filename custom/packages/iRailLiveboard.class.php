@@ -6,7 +6,7 @@
  * @license AGPLv3
  *
  */
-include_once "custom/packges/iRailTools.class.php");
+include_once("custom/packges/iRailTools.class.php");
 
 abstract class iRailLiveboard extends AResource {
     
