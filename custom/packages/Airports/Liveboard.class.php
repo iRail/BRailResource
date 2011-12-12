@@ -15,21 +15,12 @@ include_once (dirname(__FILE__) . "/Stations.class.php");
 class AirportsLiveboard extends iRailLiveboard {
     
     public function call() {
-        $o = new stdClass();
-        
-        $airport = AirportsStations::getAirportFromCode($this->location);
-        
-        // remove unwanted properties
-        unset($airport->code);
-        unset($airport->country);
-
-        $o->location = $airport;
-        $o->{$this->direction} = $this->getLiveboard($this->location, $this->startdatetime, $this->enddatetime, $this->direction);
-        
-        return $o;
+        return $this->getLiveboard($this->location, $this->startdatetime, $this->enddatetime, $this->direction);
     }
     
     public static function getLiveboard($airport, $startdatetime, $enddatetime, $direction) {
+		$o = new stdClass();
+	
         $url = "http://www.pathfinder-xml.com/development/xml?info.flightHistoryGetRecordsRequestedData.csvFormat=false&info.specificationDateRange.".substr($direction,0,-1)."DateTimeMax=" . urlencode($enddatetime->format("Y-m-d\TH:i")) . "&info.flightHistoryGetRecordsRequestedData.codeshares=true&login.guid=34b64945a69b9cac%3A31589bfe%3A12ac91d6cf3%3A-6e16&info.specification".ucfirst($direction)."[0].airport.airportCode=".$airport."&Service=FlightHistoryGetRecordsService&info.specificationDateRange.".substr($direction,0,-1)."DateTimeMin=" . urlencode($startdatetime->format("Y-m-d\TH:i"));
         
         $request = TDT::HttpRequest($url);
@@ -52,6 +43,19 @@ class AirportsLiveboard extends iRailLiveboard {
                     $estimated = new DateTime($flight["ScheduledGateDepartureDate"]);
                 else
                     $estimated = $published;
+					
+				if(!isset($o->location) || $o->location->code != $airport) {
+                	$o->location = new stdClass();
+                	$o->location->code = (string)$flight->Origin["AirportCode"];
+                	$o->location->name = (string)$flight->Origin["Name"];
+                }
+				
+				// use local info
+				$destination = (string) $flight->Destination["Name"];
+				
+				// use external info
+				//$airport = AirportsStations::getAirportFromCode((string) $flight->Destination["AirportCode"]);
+				//$destination = $airport->name;
             }
             else {
                 $published = new DateTime($flight["PublishedArrivalDate"]);
@@ -61,6 +65,20 @@ class AirportsLiveboard extends iRailLiveboard {
                     $estimated = new DateTime($flight["ScheduledGateArrivalDate"]);
                 else
                     $estimated = $published;
+					
+				if(!isset($o->location) || $o->location->code != $airport) {
+                	$o->location = new stdClass();
+                	$o->location->code = (string)$flight->Destination["AirportCode"];
+                	$o->location->name = (string)$flight->Destination["Name"];
+                }
+				
+				
+				// use local info
+				$destination = (string) $flight->Origin["Name"];
+				
+				// use external info
+				//$airport = AirportsStations::getAirportFromCode((string) $flight->Origin["AirportCode"]);
+				//$destination = $airport->name;
             }
             
             $time = $published->getTimestamp();
@@ -69,13 +87,6 @@ class AirportsLiveboard extends iRailLiveboard {
             $delay = $delay->h*3600 + $delay->i*60 + $delay->s;
             if($estimated<$published)
                 $delay *= -1;
-                
-            // use local info
-            //$direction = (string) $flight->Destination["Name"];
-            
-            // use external info
-            $airport = AirportsStations::getAirportFromCode((string) $flight->Destination["AirportCode"]);
-            $direction = $airport->name;
             
             if(isset($flight->Airline["IATACode"]))
                 $vehicle = $flight->Airline["IATACode"] . " " . $flight["FlightNumber"];
@@ -85,13 +96,15 @@ class AirportsLiveboard extends iRailLiveboard {
                 
             $item->time = $time;
             $item->delay = $delay;
-            $item->direction = $direction;
+            $item->direction = $destination;
             $item->vehicle = $vehicle;
                 
             $liveboard[] = $item;
         }
+		
+		$o->{$direction} = $liveboard;
         
-        return $liveboard;
+        return $o;
     }
 }
 
