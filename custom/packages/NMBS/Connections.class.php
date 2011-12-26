@@ -19,7 +19,8 @@ class NMBSConnections extends iRailConnections {
     public function __construct() {
         parent::__construct();
         $this->typeOfTransport = "train";
-        $this->results = 0; // what does this do?
+        //standard number of results to fetch from Hafas
+        $this->results = 6;
     }
     
     public static function getParameters() {
