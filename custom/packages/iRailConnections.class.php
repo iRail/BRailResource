@@ -8,75 +8,49 @@
  */
 
 include_once ("custom/packages/iRailTools.class.php");
+include_once ("custom/packages/AbstractiRailResource.class.php");
 
-class iRailConnections extends AResource {
+class iRailConnections extends AbstractiRailResource {
     
-    // parameters
-    protected $lang;
-    protected $time;
-    protected $date;
     protected $to;
     protected $from;
     protected $timeSel;
     
-    protected $datetime; // DateTime
-    
     public function __construct() {
-        $this->time = date("H:i\+Z");
-        $this->date = date("Y-m-d");
-        $this->lang = "en";
+        parent::__construct();
         $this->timeSel = "arrival";
-        
-        $this->datetime = new DateTime($this->date."T".$this->time);
     }
     
     public static function getParameters() {
-        return array("from" => "Station from", "to" => "Station to", "time"=>"Time of arrival or departure", "date"=>"Date of arrival or departure", "lang"=>"Language", "timeSel"=>"Interpret time as time of departure or arrival");
+        return array("from" => "Station from",
+                     "to" => "Station to",
+                     "year"=> "YYYY - 4 digits describing the year of the connection",
+                     "month"=> "MM - 2 digits describing the month of the connection",
+                     "day"=> "DD - 2 digits describing the day of the connection",
+                     "hour"=> "HH - 2 digits describing the hour of the connection",
+                     "minutes"=> "II - 2 digits describing the minutes of the connection",
+                     "timeSel"=>"Interpret time as time of departure or arrival");    
     }
     
     public static function getRequiredParameters() {
-        return array("from", "to");
+        return array("from", "to", "year","month","day","hour","minutes");
     }
     
     public function setParameter($key, $val) {
-        
-        if ($key == "time" && $val != "") {
-            $val = str_replace(array("-","/"), ":", $val);
-            $this->time = $val;
-            
-            // update datetime
-            $this->datetime = new DateTime($this->date."T".$this->time);
-        }
-        
-        elseif ($key == "date" && $val != "") {
-            $val = str_replace(array("-","."), "/", $val);
-            $this->date = $val;
-            
-            // update datetime
-            $this->datetime = new DateTime($this->date."T".$this->time);
-        }
-
-        elseif ($key == "to" && $val != "") {
+        if ($key == "to" && $val != "") {
             $this->to = $val;
-        } 
-
-        elseif ($key == "from" && $val != "") {
+        }elseif ($key == "from" && $val != "") {
             $this->from = $val;
-        }
-
-        elseif ($key == "lang" && $val != "") {
-            $this->lang = $val;
-        }
-
-        elseif ($key == "timeSel" && $val != "") {
+        }elseif ($key == "timeSel" && $val != "") {
             $this->timeSel = $val;
+        }else{
+            $this->$key = $val;
         }
+        
     }
     
-    public function call() {} // We will implement the Call function in the real function
-    
     public static function getDoc() {
-        return "Get connections between 2 stations: data.iRail.be/Company/Connections/station1/station2";
+        return "Get connections between 2 stations. You can use it like this: data.iRail.be/Company/Connections/station1/station2/YYYY/MM/DD/HH/II/";
     }
 }
 

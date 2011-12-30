@@ -30,8 +30,14 @@ class NMBSLiveboard extends IRailLiveboard {
         
         return $o;
     }
+
+    public function supportedLanguages(){
+        //only support 4 languages
+        return array("en","nl","fr","de");
+    }
     
-    public static function getLiveboard($stationId, $startdatetime, $enddatetime, $lang, $direction) {
+    
+    public function getLiveboard($stationId, $startdatetime, $enddatetime, $lang, $direction) {
         
         if ($direction == "departures")
             $type = "dep";

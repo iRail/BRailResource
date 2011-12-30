@@ -42,33 +42,31 @@ class NMBSConnections extends iRailConnections {
     }
     
     public function call() {
-        
-        return $this->connectionsBetween($this->from, $this->to, $this->lang, $this->datetime, $this->results, $this->timeSel, $this->typeOfTransport);
+        return $this->connectionsBetween($this->from, $this->to);
     }
     
-    public static function connectionsBetween($from, $to, $lang, $datetime, $results, $timeSel, $typeOfTransport) {
+    public function connectionsBetween($from, $to){
         $stations = NMBSStations::getStationsFromName(array($from, $to));
         
         $url = "http://hari.b-rail.be/Hafas/bin/extxml.exe";
         
-        if ($typeOfTransport == "trains") {
+        if ($this->typeOfTransport == "trains") {
             $trainsonly = "0111111000000000";
-        } else if ($typeOfTransport == "all") {
+        } else if ($this->typeOfTransport == "all") {
             $trainsonly = "1111111111111111";
         } else {
             $trainsonly = "0111111000000000";
         }
         
-        if ($timeSel == "departure") {
+        if ($this->timeSel == "departure") {
             $timeSel = 0;
-        } else if ($timeSel == "arrival") {
+        } else if ($this->timeSel == "arrival") {
             $timeSel = 1;
         } else {
             $timeSel = 1;
         }
-        $result = 6;
         $post = '<?xml version="1.0 encoding="iso-8859-1"?>
-            <ReqC ver="1.1" prod="iRail" lang="' . $lang . '">
+            <ReqC ver="1.1" prod="iRail" lang="' . $this->lang . '">
             <ConReq>
             <Start min="0">
             <Station externalId="' . $stations[0]->id . '" distance="0">
@@ -82,9 +80,9 @@ class NMBSConnections extends iRailConnections {
             </Dest>
             <Via>
             </Via>
-            <ReqT time="' . $datetime->format("H:i") . '" date="' . $datetime->format("Ymd") . '" a="' . $timeSel . '">
+            <ReqT time="' . $this->hour . ":" . $this->minutes . '" date="' . $this->year . $this->month . $this->day . '" a="' . $timeSel . '">
             </ReqT>
-            <RFlags b="' . $results * $timeSel . '" f="' . $results * - ($timeSel - 1) . '">
+            <RFlags b="' . $this->results * $timeSel . '" f="' . $this->results * - ($timeSel - 1) . '">
             </RFlags>
             <GISParameters>
             <Front>
@@ -95,12 +93,12 @@ class NMBSConnections extends iRailConnections {
             </ConReq>
             </ReqC>';
         
-        $options = array("method" => "POST", "data" => $post);
+        $options = array("method" => "POST", "data" => $post, "cache-time" => 60);//cache for 1 minute
         $request = TDT::HttpRequest($url, $options);
         
         $xml = new SimpleXMLElement($request->data);
         
-        // clean station information
+        // clean station information 
         unset($stations[0]->id);
         unset($stations[0]->type);
         unset($stations[1]->id);
@@ -110,6 +108,7 @@ class NMBSConnections extends iRailConnections {
         $i = 0;
         if (isset($xml->ConRes->ConnectionList->Connection)) {
             foreach ($xml->ConRes->ConnectionList->Connection as $conn) {
+                
                 $connection[$i] = new stdClass();
                 $connection[$i]->departure = new stdClass();
                 $connection[$i]->arrival = new stdClass();
@@ -171,7 +170,7 @@ class NMBSConnections extends iRailConnections {
                                     $trains[$j] = str_replace(" ", "", $att->Attribute->AttributeVariant->Text);
                                     $j++;
                                 } else if ($att->Attribute["type"] == "DIRECTION") {
-                                    $directions[$k] = NMBSStations::getStationFromName(trim($att->Attribute->AttributeVariant->Text), $lang)->name;
+                                    $directions[$k] = NMBSStations::getStationFromName(trim($att->Attribute->AttributeVariant->Text), $this->lang)->name;
                                     $k++;
                                 }
                             }
@@ -201,7 +200,7 @@ class NMBSConnections extends iRailConnections {
                                 $vias[$connectionindex]->timeBetween = $departTime - $arrivalTime;
                                 $vias[$connectionindex]->direction = $directions[$k - 1];
                                 $vias[$connectionindex]->vehicle = "BE.NMBS." . $trains[$j - 1];
-                                $station = NMBSStations::getStationFromName($connsection->Arrival->BasicStop->Station['name'], $lang);
+                                $station = NMBSStations::getStationFromName($connsection->Arrival->BasicStop->Station['name'], $this->lang);
                                 
                                 // remove unwanted properties
                                 unset($station->id);
