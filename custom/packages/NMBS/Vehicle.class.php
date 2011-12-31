@@ -8,9 +8,9 @@
  *
  */
 
-include_once (dirname(__FILE__) . "/Stations.class.php");
-include_once (dirname(__FILE__) . "/../iRailVehicle.class.php");
-include_once (dirname(__FILE__) . "/simple_html_dom.php");
+include_once ("custom/packages/NMBS/Stations.class.php");
+include_once ("custom/packages/iRailVehicle.class.php");
+include_once ("custom/packages/NMBS/simple_html_dom.php");
 
 class NMBSVehicle extends iRailVehicle {
     
@@ -18,18 +18,18 @@ class NMBSVehicle extends iRailVehicle {
     
     public function call() {
         $o = new stdClass();
-        $o->vehicle = $this->getVehicle($this->id, $this->lang);
-        $o->stops = $this->getStops($this->id, $this->lang);
+        $o->vehicle = $this->getVehicle($this->id);
+        $o->stops = $this->getStops($this->id);
         return $o;
     }
     
-    public function getVehicle($id, $lang) {
+    public function getVehicle($id) {
         if ($this->html) {
             $html = $this->html;
         } else {
             $url = "http://www.railtime.be/mobile/HTML/TrainDetail.aspx";
             $id = preg_replace("/.*?(\d.*)/smi", "\\1", $id);
-            $url .= "?l=" . $lang . "&tid=" . $id . "&dt=" . urlencode(date('d/m/Y'));
+            $url .= "?l=" . $this->lang . "&tid=" . $id . "&dt=" . urlencode(date('d/m/Y'));
             
             $request = TDT::HttpRequest($url);
             if (isset($request->error)) {
@@ -48,24 +48,23 @@ class NMBSVehicle extends iRailVehicle {
         $vehicle->name = "BE.NMBS." . $id;
         
         if (isset($station)) {
-            $now = NMBSStations::getStationFromName($station, $lang);
+            $now = NMBSStations::getStationFromName($station, $this->lang);
             $vehicle->longitude = $now->longitude;
             $vehicle->latitude = $now->latitude;
         } else {
             $vehicle->longitude = 0;
             $vehicle->latitude = 0;
         }
-        
         return $vehicle;
     }
     
-    public function getStops($id, $lang) {
+    public function getStops($id) {
         if ($this->html) {
             $html = $this->html;
         } else {
             $url = "http://www.railtime.be/mobile/HTML/TrainDetail.aspx";
             $id = preg_replace("/.*?(\d.*)/smi", "\\1", $id);
-            $url .= "?l=" . $lang . "&tid=" . $id . "&dt=" . urlencode(date('d/m/Y'));
+            $url .= "?l=" . $this->lang . "&tid=" . $id . "&dt=" . urlencode($this->day . "/" . $this->month . "/" . $this->year);
             
             $request = TDT::HttpRequest($url);
             if (isset($request->error)) {
@@ -95,10 +94,12 @@ class NMBSVehicle extends iRailVehicle {
             
             $stop = new stdClass();
             $station = new stdClass();
-            $station = NMBSStations::getStationFromName($node->children(1)->first_child()->plaintext, $lang);
+            $station = NMBSStations::getStationFromName($node->children(1)->first_child()->plaintext, $this->lang);
             $stop->station = $station;
             $stop->delay = $delay;
             $stop->time = iRailTools::transformTime("00d" . $node->children(2)->first_child()->plaintext . ":00", date("Ymd"));
+            $stop->iso8601 = date(DateTime::ISO8601, $stop->time);
+            
             $stops[$i] = $stop;
             
             $i++;
