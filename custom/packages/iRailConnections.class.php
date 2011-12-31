@@ -18,7 +18,7 @@ class iRailConnections extends AbstractiRailResource {
     
     public function __construct() {
         parent::__construct();
-        $this->timeSel = "arrival";
+        $this->timeSel = "departure";
     }
     
     public static function getParameters() {

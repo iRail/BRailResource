@@ -115,10 +115,12 @@ class NMBSConnections extends iRailConnections {
                 $connection[$i]->duration = iRailTools::transformDuration($conn->Overview->Duration->Time);
                 $connection[$i]->departure->station = $stations[0];
                 $connection[$i]->departure->time = iRailTools::transformTime($conn->Overview->Departure->BasicStop->Dep->Time, $conn->Overview->Date);
+                $connection[$i]->departure->iso8601 = date(DateTime::ISO8601,iRailTools::transformTime($conn->Overview->Departure->BasicStop->Dep->Time, $conn->Overview->Date));
                 $connection[$i]->departure->direction = (trim($conn->Overview->Departure->BasicStop->Dep->Platform->Text));
                 $connection[$i]->departure->platform = new stdClass();
                 $connection[$i]->departure->platform->name = trim($conn->Overview->Departure->BasicStop->Dep->Platform->Text);
                 $connection[$i]->arrival->time = iRailTools::transformTime($conn->Overview->Arrival->BasicStop->Arr->Time, $conn->Overview->Date);
+                $connection[$i]->arrival->iso8601 = date(DateTime::ISO8601,iRailTools::transformTime($conn->Overview->Departure->BasicStop->Arr->Time, $conn->Overview->Date));
                 $connection[$i]->arrival->platform = new stdClass();
                 $connection[$i]->arrival->platform->name = trim($conn->Overview->Arrival->BasicStop->Arr->Platform->Text);
                 $connection[$i]->arrival->station = $stations[1];
