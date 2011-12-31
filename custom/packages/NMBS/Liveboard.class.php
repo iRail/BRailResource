@@ -14,15 +14,15 @@ include_once("custom/packages/iRailLiveboard.class.php");
 class NMBSLiveboard extends IRailLiveboard {
     
     public function call() {
+        parent::__construct();
         $o = new stdClass();
-        
+
         $station = NMBSStations::getStationFromName($this->location, $this->lang);
         $stationId = $station->id;
         
         // remove unwatend properties
         unset($station->type);
         unset($station->id);
-        
         $o->location = $station;
         $o->{$this->direction} = $this->getLiveboard($stationId, $this->direction);
         
