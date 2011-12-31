@@ -18,12 +18,11 @@ abstract class iRailLiveboard extends AbstractiRailResource {
     
     public static function getParameters() {
         return array("location" => "Name of the location",
-                     "year"=> "YYYY - 4 digits describing the year of the liveboard",
+                     "year"=> "YYYY - 4 digits describing the year of the liveboard.",
                      "month"=> "MM - 2 digits describing the month of the liveboard",
                      "day"=> "DD - 2 digits describing the day of the liveboard",
-                     "hour"=> "HH - 2 digits describing the hour of the liveboard",
+                     "hour"=> "HH - 2 digits describing the hour of the liveboard.";
                      "minutes"=> "II - 2 digits describing the minutes of the liveboard",
-                     "timerange"=>"A timerange for results in hh:mm",
                      "direction" => "Do you want to have the 'arrivals' or the 'departures' (default)"
         );
     }

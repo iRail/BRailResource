@@ -92,6 +92,7 @@ class AirportsLiveboard extends iRailLiveboard {
             
                 
             $item->time = $time;
+            $item->iso8601 = $published->format(DateTime::ISO8601);
             $item->delay = $delay;
             $item->direction = $destination;
             $item->vehicle = $vehicle;
