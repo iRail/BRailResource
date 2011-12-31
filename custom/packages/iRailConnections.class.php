@@ -45,8 +45,7 @@ class iRailConnections extends AbstractiRailResource {
             $this->timeSel = $val;
         }else{
             $this->$key = $val;
-        }
-        
+        }        
     }
     
     public static function getDoc() {
