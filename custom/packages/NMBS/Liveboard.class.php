@@ -14,9 +14,7 @@ include_once("custom/packages/iRailLiveboard.class.php");
 class NMBSLiveboard extends IRailLiveboard {
     
     public function call() {
-        parent::__construct();
         $o = new stdClass();
-
         $station = NMBSStations::getStationFromName($this->location, $this->lang);
         $stationId = $station->id;
         

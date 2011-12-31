@@ -33,6 +33,9 @@ abstract class iRailLiveboard extends AbstractiRailResource {
     
     public function setParameter($key, $val) {
         $this->$key=$val;
+        if($key == "direction" && $val == ""){
+            $this->direction = "departure";
+        }
     }
     
     public static function getDoc() {
