@@ -14,8 +14,6 @@ include_once("custom/packages/iRailLiveboard.class.php");
 class NMBSLiveboard extends IRailLiveboard {
     
     public function call() {
-        //ob_start(); //what was this line for?
-        
         $o = new stdClass();
         
         $station = NMBSStations::getStationFromName($this->location, $this->lang);
@@ -30,12 +28,6 @@ class NMBSLiveboard extends IRailLiveboard {
         
         return $o;
     }
-
-    public function supportedLanguages(){
-        //only support 4 languages
-        return array("en","nl","fr","de");
-    }
-    
     
     public function getLiveboard($stationId, $direction) {
         
@@ -118,28 +110,7 @@ class NMBSLiveboard extends IRailLiveboard {
                 $departure = DateTime::createFromFormat('d/m/y H:i', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"]);
         }
         return $liveboard;
-    }
-    
-    /**
-     * It will remove the duplicates from an array the php way. Since a PHP array will need to recopy everything to be reindexed, I figured this would go faster if we did the deleting when copying.
-     */
-    private static function removeDuplicates($nodes) {
-        $newarray = array();
-        for($i = 0; $i < sizeof($nodes); $i++) {
-            $duplicate = false;
-            for($j = 0; $j < $i; $j++) {
-                if ($nodes[$i]->vehicle == $nodes[$j]->vehicle) {
-                    $duplicate = true;
-                    continue;
-                }
-            }
-            if (! $duplicate) {
-                $newarray[sizeof($newarray)] = $nodes[$i];
-            }
-        }
-        return $newarray;
-    }
-    
+    }    
 }
 
 ?>
