@@ -14,7 +14,7 @@ include_once("custom/packages/iRailLiveboard.class.php");
 class NMBSLiveboard extends IRailLiveboard {
     
     public function call() {
-        ob_start();
+        //ob_start(); //what was this line for?
         
         $o = new stdClass();
         
@@ -26,7 +26,7 @@ class NMBSLiveboard extends IRailLiveboard {
         unset($station->id);
         
         $o->location = $station;
-        $o->{$this->direction} = $this->getLiveboard($stationId, $this->startdatetime, $this->enddatetime, $this->lang, $this->direction);
+        $o->{$this->direction} = $this->getLiveboard($stationId, $this->direction);
         
         return $o;
     }
@@ -37,15 +37,15 @@ class NMBSLiveboard extends IRailLiveboard {
     }
     
     
-    public function getLiveboard($stationId, $startdatetime, $enddatetime, $lang, $direction) {
+    public function getLiveboard($stationId, $direction) {
         
         if ($direction == "departures")
             $type = "dep";
         else
             $type = "arr";
         
-        $url = "http://hari.b-rail.be/Hafas/bin/stboard.exe/" . $lang . "?start=yes";
-        $url .= "&time=" . urlencode($startdatetime->format("H:i")) . "&date=o" . $startdatetime->format("d.m.Y") . "&inputTripelId=" . "A=1@O=@X=@Y=@U=80@L=" . $stationId . "@B=1@p=@" . "&maxJourneys=50&boardType=" . $type . "&hcount=1&htype=NokiaC7-00%2f022.014%2fsw_platform%3dS60%3bsw_platform_version%3d5.2%3bjava_build_version%3d2.2.54&L=vs_java3&productsFilter=0111111000000000";
+        $url = "http://hari.b-rail.be/Hafas/bin/stboard.exe/" . $this->lang . "?start=yes";
+        $url .= "&time=" . urlencode($this->hour . ":" . $this->minutes) . "&date=o" . urlencode($this->day . ".".$this->month .".". $this->year) . "&inputTripelId=" . "A=1@O=@X=@Y=@U=80@L=" . $stationId . "@B=1@p=@" . "&maxJourneys=50&boardType=" . $type . "&hcount=1&htype=NokiaC7-00%2f022.014%2fsw_platform%3dS60%3bsw_platform_version%3d5.2%3bjava_build_version%3d2.2.54&L=vs_java3&productsFilter=0111111000000000";
         
         $request = TDT::HttpRequest($url);
         if (isset($request->error)) {
@@ -63,7 +63,7 @@ class NMBSLiveboard extends IRailLiveboard {
         // check first departure
         $departure = DateTime::createFromFormat('d/m/y H:i', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"]);
         
-        while (isset($data->Journey[$i]) && $departure <= $enddatetime) {
+        while (isset($data->Journey[$i])){// && $departure <= $enddatetime) {
             $journey = $data->Journey[$i];
             
             $delay = (string) $journey["delay"];
@@ -96,7 +96,7 @@ class NMBSLiveboard extends IRailLiveboard {
             
             // TODO detect platform changed
             
-            $station = NMBSStations::getStationFromName($station, $lang);
+            $station = NMBSStations::getStationFromName($station,$this->lang);
             $direction = $station->name;
             
             $time = $departure->getTimestamp();
@@ -117,12 +117,6 @@ class NMBSLiveboard extends IRailLiveboard {
             if(isset($data->Journey[$i]))
                 $departure = DateTime::createFromFormat('d/m/y H:i', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"]);
         }
-        
-        if($departure <= $enddatetime) {
-            $next_results = self::getLiveboard($stationId, $departure, $enddatetime, $lang, $direction);
-            array_push($liveboard, $next_results);
-        }
-        
         return $liveboard;
     }
     

@@ -7,30 +7,13 @@
  * @license AGPLv3
  */
 include_once("custom/packages/iRailTools.class.php");
+include_once("custom/packages/AbstractiRailResource.class.php");
 
-abstract class iRailLiveboard extends AResource {
-    
-    // parameters
-    protected $lang;
-    protected $date;
-    protected $time;
-    protected $timerange;
-    protected $direction;
-    protected $location;
-    
-    protected $startdatetime; // DateTime
-    protected $enddatetime; // DateTime
+abstract class iRailLiveboard extends AbstractiRailResource {
     
     public function __construct() {
-        $this->time = date("H:i\+Z");
-        $this->date = date("Y-m-d");
-        $this->lang = parent::getLang();
+        parent::__construct();
         $this->direction = "departures";
-        
-        $this->timerange = new DateInterval("PT1H0M"); // 1 hour time interval
-        $this->startdatetime = new DateTime($this->date."T".$this->time);
-        $this->enddatetime = clone $this->startdatetime;
-        $this->enddatetime->add($this->timerange);
     }
     
     public static function getParameters() {
@@ -88,7 +71,6 @@ abstract class iRailLiveboard extends AResource {
         }
     }
     
-    public function call() {}
     
     public static function getDoc() {
         return "Liveboard will return the next arrivals or departures in a specific station.";
