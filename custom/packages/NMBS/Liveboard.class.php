@@ -93,7 +93,7 @@ class NMBSLiveboard extends IRailLiveboard {
             
             $node = new stdClass();
             $node->time = $time;
-            $node->delay = $delay;
+            $node->delay = (int)$delay;
             $node->direction = $direction;
             $node->vehicle = $vehicle;
             $node->platform = new stdClass();
