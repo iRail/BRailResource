@@ -8,17 +8,12 @@
  */
 
 include_once("custom/packages/iRailTools.class.php");
+include_once("custom/packages/AbstractiRailResource.class.php");
 
-class iRailStations extends AResource {
-    
-    protected $lang;
-    
-    public function __construct() {
-        $this->lang = "en";
-    }
+class iRailStations extends AbstractiRailResource {
     
     public static function getParameters() {
-        return array("lang" => "Language for the stations");
+        return array();
     }
     
     /**
@@ -29,9 +24,6 @@ class iRailStations extends AResource {
     }
     
     public function setParameter($key, $val) {
-        if ($key == "lang") {
-            $this->lang = $val;
-        }
     }
     
     public function call() {}

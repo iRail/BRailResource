@@ -8,7 +8,7 @@
  *
  */
 
-include_once (dirname(__FILE__) . "/../iRailStations.class.php");
+include_once ("custom/packages/iRailStations.class.php");
 
 class NMBSStations extends iRailStations {
     
@@ -19,9 +19,16 @@ class NMBSStations extends iRailStations {
      */
     public function call() {
         // TODO
-        $o = new StdClass();
-        $o->stations = iRailTools::$railtimenames;
-        return $o;
+        $stations = array();
+        foreach(iRailTools::$railtimenames as $id => $name){
+            $st = array();
+            $st["id"] = $id;
+            $st["name"] = $name;
+            $st["long"] = 0.0;
+            $st["lat"] = 0.0;
+            $stations[] = $st;
+        }
+        return $stations;
     }
     
     public static function getStationFromName($name, $lang = "en") {
