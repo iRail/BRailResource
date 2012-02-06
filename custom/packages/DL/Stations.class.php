@@ -24,13 +24,13 @@ class DLStations extends iRailStations {
     
     public function setParameter($key, $val) {
         if($key== "municipal"){
-            $this->municipal = $val;
+            $this->municipal = strtoupper($val);
         }
     }
 
 
     public function call() {
-        $arguments = array(":municipal" => $this->municpal);
+        $arguments = array(":municipal" => $this->municipal);
         $result = R::getAll("select * from delijn_stops where STOPPARENTMUNICIPAL like :municipal",$arguments);
         return $result;
         
