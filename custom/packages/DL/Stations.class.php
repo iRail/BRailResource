@@ -30,9 +30,21 @@ class DLStations extends iRailStations {
 
 
     public function call() {
+        date_default_timezone_set("Europe/Brussels");
         $arguments = array(":municipal" => urldecode($this->municipal));
         $result = R::getAll("select * from delijn_stops where STOPPARENTMUNICIPAL like :municipal",$arguments);
-        return $result;
+        $results = array();
+        foreach($result as &$row){
+            $station = array();
+            $station["id"] = $row["STOPIDENTIFIER"];
+            $station["name"] = $row["STOPDESCRPTION"];
+            $station["longitude"] = $row["STOPCORDINATEX"];
+            $station["latitude"] = $row["STOPCORDINATEY"];
+            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "DL/Liveboard/" . $station["id"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
+            $results[] = $station;
+        }
+        date_default_timezone_set("UTC");
+        return $results;
     }
     
     public static function getStationFromName($name, $lang = "en") {

@@ -19,15 +19,18 @@ class NMBSStations extends iRailStations {
      */
     public function call() {
         // TODO
+        date_default_timezone_set("Europe/Brussels");
         $stations = array();
         foreach(iRailTools::$railtimenames as $id => $name){
-            $st = array();
-            $st["id"] = $id;
-            $st["name"] = $name;
-            $st["long"] = 0.0;
-            $st["lat"] = 0.0;
-            $stations[] = $st;
+            $station = array();
+            $station["id"] = $id;
+            $station["name"] = $name;
+            $station["longitude"] = 0.0;
+            $station["latitude"] = 0.0;
+            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "NMBS/Liveboard/" . urlencode($station["name"]) . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
+            $stations[] = $station;
         }
+        date_default_timezone_set("UTC");
         return $stations;
     }
     
