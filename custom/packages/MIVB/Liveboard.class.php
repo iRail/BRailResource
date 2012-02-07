@@ -20,42 +20,22 @@ class MIVBLiveboard extends IRailLiveboard {
         }
         $this->locid = $locid;
         
-        $data = TDT::HttpRequest("http://reisinfo.delijn.be/realtime/halte/" . $locid);
+        $data = TDT::HttpRequest("http://stibrt.be/labs/stib/service/getwaitingtimes.php?iti=1&halt=" . $locid . "&lang=". $this->lang) ;
         $data = $this->parseMIVB($data->data);
         return $data;
     }
 
     private function parseMIVB($data){
-        preg_match_all("/<tr class=\".*?\"(.*?)(?=<tr class=\".*?\")/smi",$data,$matches);
-        $results = array();
-        $results["station"] = MIVBStations::getStationFromId($this->locid);
-        $results["departures"] = array();
-        foreach($matches[1] as $row){
-            $dep = array();
-            preg_match("/<span id=\"form:haltebord:..?:lblPubliekNr\">(.*?)<\/span>/smi",$row,$match);
-            
-            if(isset($match[1])){
-                $dep["line"] = $match[1];
-            }
-            
-            preg_match("/<span id=\"form:haltebord:..?:lblBestemming\">(.*?)<\/span>/smi",$row,$match);
-            if(isset($match[1])){
-                $dep["direction"] = $match[1];
-            }
-            
-            preg_match("/<span id=\"form:haltebord:..?:verwacht\">(.*?)<\/span>/smi",$row,$match);
-            if(isset($match[1])){
-                $dep["time"] = $match[1];
-            }
-            
-            //DEV:$dep["dump"] = $row;
-            
-            $results["departures"][] = $dep;
-            
-            
+        preg_match_all("/<waitingtime>.*?<line>(.*?)<\/line>.*?<mode>(.*?)<\/mode>.*?<minutes>(.*?)<\/minutes>.*?<destination>(.*?)<\/destination>.*?<\/waitingtime>/si", $data,$matches);
+        $nodes = array();
+        for($i=1;$i<sizeof($matches[0]);$i++){
+            $nodes[$i-1] = array();
+            $nodes[$i-1]["vehicle"] = "BE.MIVB." . $matches[2][$i] . $matches[1][$i];
+            $nodes[$i-1]["time"] = date("U") + $matches[3][$i]*60;
+            $nodes[$i-1]["delay"] = 0;
+            $nodes[$i-1]["station"] = $matches[4][$i];
         }
-        return $results;
-        
+        return $nodes;        
 
     }
 }
