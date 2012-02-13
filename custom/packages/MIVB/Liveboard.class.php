@@ -35,8 +35,7 @@ class MIVBLiveboard extends IRailLiveboard {
             $nodes[$i-1]["delay"] = 0;
             $nodes[$i-1]["station"] = $matches[4][$i];
         }
-        return $nodes;        
-
+        return $nodes;
     }
 }
 

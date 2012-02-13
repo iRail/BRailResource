@@ -24,7 +24,7 @@ class MIVBStations extends iRailStations {
             $station["name"] = $row["stop_name"];
             $station["longitude"] = $row["stop_lat"];
             $station["latitude"] = $row["stop_lon"];
-            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "MIVB/Liveboard/" . $station["id"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
+            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "MIVB/Liveboard/" . $station["id"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date("i");
             $results[] = $station;
         }
         

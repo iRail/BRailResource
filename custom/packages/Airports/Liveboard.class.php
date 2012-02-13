@@ -19,7 +19,7 @@ class AirportsLiveboard extends iRailLiveboard {
         
         $o = new stdClass();
         
-        $hourmax = $this->hour + 1;
+        $hourmax = $this->hour + 6;
         $url = "http://www.pathfinder-xml.com/development/xml?info.flightHistoryGetRecordsRequestedData.csvFormat=false&info.specificationDateRange." . substr($direction, 0, -1) . "DateTimeMax=" . urlencode($this->year . "-" . $this->month . "-" . $this->day . 'T' . $hourmax . ":" . $this->minutes) . "&info.flightHistoryGetRecordsRequestedData.codeshares=true&login.guid=34b64945a69b9cac%3A31589bfe%3A12ac91d6cf3%3A-6e16&info.specification" . ucfirst($direction) . "[0].airport.airportCode=" . $airport . "&Service=FlightHistoryGetRecordsService&info.specificationDateRange." . substr($direction, 0, -1) . "DateTimeMin=" . urlencode($this->year . "-" . $this->month . "-" . $this->day . 'T' . $this->hour . ":" . $this->minutes);
         
         $request = TDT::HttpRequest($url);
