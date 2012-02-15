@@ -1,0 +1,62 @@
+-- phpMyAdmin SQL Dump
+-- version 3.4.5deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Feb 15, 2012 at 04:20 PM
+-- Server version: 5.1.58
+-- PHP Version: 5.3.6-13ubuntu3.5
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `logging`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `DL_stops`
+--
+
+CREATE TABLE IF NOT EXISTS `DL_stops` (
+  `STOPID` int(5) NOT NULL DEFAULT '0',
+  `STOPIDENTIFIER` int(7) DEFAULT NULL,
+  `STOPDESCRPTION` varchar(50) DEFAULT NULL,
+  `STOPSTREET` varchar(38) DEFAULT NULL,
+  `STOPMUNICIPAL` varchar(34) DEFAULT NULL,
+  `STOPPARENTMUNICIPAL` varchar(34) DEFAULT NULL,
+  `STOPCORDINATEX` int(6) DEFAULT NULL,
+  `STOPCORDINATEY` int(6) DEFAULT NULL,
+  `STOPISACCESSIBLE` varchar(5) DEFAULT NULL,
+  `STOPISPUBLIC` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`STOPID`),
+  KEY `STOPIDENTIFIER` (`STOPIDENTIFIER`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `DL_stops`
+--
+
+INSERT INTO `DL_stops` (`STOPID`, `STOPIDENTIFIER`, `STOPDESCRPTION`, `STOPSTREET`, `STOPMUNICIPAL`, `STOPPARENTMUNICIPAL`, `STOPCORDINATEX`, `STOPCORDINATEY`, `STOPISACCESSIBLE`, `STOPISPUBLIC`) VALUES
+(2, 200001, 'Evergem Brielken', 'CHRISTOFFELWEG', 'EVERGEM', 'EVERGEM', 103117, 200279, 'false', 'true'),
+(3, 208199, 'Sint-Blasius-Boekel Kouteren', 'BOEKELBAAN', 'SINT-BLASIUS-BOEKEL', 'ZWALM', 105421, 171527, 'false', 'true'),
+(4, 208200, 'Sint-Blasius-Boekel Boekelbaan', 'BOEKELBAAN', 'SINT-BLASIUS-BOEKEL', 'ZWALM', 104958, 171450, 'false', 'true'),
+(5, 208201, 'Sint-Blasius-Boekel Kerk', 'BOEKELBAAN', 'SINT-BLASIUS-BOEKEL', 'ZWALM', 104288, 171457, 'false', 'true'),
+(6, 208202, 'Sint-Maria-Horebeke Tonnestraat', 'BROEKESTRAAT', 'SINT-MARIA-HOREBEKE', 'HOREBEKE', 102638, 170571, 'false', 'true'),
+(7, 208203, 'Sint-Maria-Horebeke Melkerij', 'DORPSSTRAAT', 'SINT-MARIA-HOREBEKE', 'HOREBEKE', 102273, 170186, 'false', 'true'),
+(8, 208204, 'Sint-Maria-Horebeke Kerk', 'DORPSSTRAAT', 'SINT-MARIA-HOREBEKE', 'HOREBEKE', 101969, 169867, 'false', 'true'),
+(9, 208205, 'Sint-Maria-Horebeke Heerweg', 'DORPSSTRAAT', 'SINT-MARIA-HOREBEKE', 'HOREBEKE', 101453, 169089, 'false', 'true'),
+(10, 208206, 'Sint-Maria-Horebeke Broekestraat', 'SMARRE', 'SINT-MARIA-HOREBEKE', 'HOREBEKE', 103426, 171390, 'false', 'true'),
+(11, 208207, 'Sint-Maria-Horebeke Korsele', 'SMARRE', 'SINT-MARIA-HOREBEKE', 'HOREBEKE', 102888, 172173, 'false', 'true');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
