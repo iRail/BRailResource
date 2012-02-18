@@ -71,6 +71,8 @@ class DLLiveboard extends IRailLiveboard {
             $stop = array();
             $stop["line"] = $result["ROUTEPUBLICIDENTIFIER"];
             $stop["vehicle"] = $result["ROUTEIDENTIFIER"];
+            $stop["direction"] = $result["ROUTEDESCRPTION"];
+            
             preg_match("/(....)\/(..)\/(..)/smi",$result["VSCDATE"],$matches);
             $y = $matches[1];
             $m = $matches[2];
