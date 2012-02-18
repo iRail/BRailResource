@@ -8,6 +8,7 @@
  */
 
 include_once ("custom/packages/iRailStations.class.php");
+include_once ("custom/packages/DL/tools.php");
 
 class DLStations extends iRailStations {
     
@@ -32,14 +33,15 @@ class DLStations extends iRailStations {
     public function call() {
         date_default_timezone_set("Europe/Brussels");
         $arguments = array(":municipal" => urldecode($this->municipal));
-        $result = R::getAll("select * from delijn_stops where STOPPARENTMUNICIPAL like :municipal",$arguments);
+        $result = R::getAll("select * from DL_stops where STOPPARENTMUNICIPAL like :municipal or STOPMUNICIPAL like :municipal and STOPISPUBLIC = 'true'",$arguments);
         $results = array();
         foreach($result as &$row){
             $station = array();
             $station["id"] = $row["STOPIDENTIFIER"];
             $station["name"] = $row["STOPDESCRPTION"];
-            $station["longitude"] = $row["STOPCORDINATEX"];
-            $station["latitude"] = $row["STOPCORDINATEY"];
+            $coord = tools::LambertToWGS84($row["STOPCORDINATEX"],$row["STOPCORDINATEY"]);
+            $station["longitude"] = $coord[1];
+            $station["latitude"] = $coord[0];
             $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "DL/Liveboard/" . $station["id"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
             $results[] = $station;
         }
