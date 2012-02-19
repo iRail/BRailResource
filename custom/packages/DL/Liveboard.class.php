@@ -24,7 +24,7 @@ class DLLiveboard extends IRailLiveboard {
         $data = $this->getLiveboardFromDB($locid);
         $rtdata= array();
         if($this->realtime_needed()){
-            $rtdata = $this->scrapeDeLijnRealtime($locid);
+//            $rtdata = $this->scrapeDeLijnRealtime($locid);
         }
         $data = $this->combineRT($data,$rtdata);
 
