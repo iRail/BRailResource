@@ -58,14 +58,12 @@ class DLLiveboard extends IRailLiveboard {
             $endhour = "0" . $endhour;
         }
         
-        $arguments = array(":vscdate" => $this->year . "/" . $this->month . "/" .$this->day,
-                           ":stopid" => $locid,
-                           ":starthour"=> $starthour,
-                           ":endhour"=>$endhour,
+        $arguments = array(":stopid" => $locid,
+                           ":starttime"=> mktime($starthour,$this->minutes,0,$this->month,$this->day,$this->year)
         );
         //var_dump($arguments);
         
-        $results = R::getAll("SELECT STOPIDENTIFIER,ROUTEPUBLICIDENTIFIER,SEGMENTSTART,SEGMENTEND,ROUTEDESCRPTION,ROUTEIDENTIFIER,VSCDATE FROM DL_segments s JOIN DL_trips t ON s.TRIPID = t.TRIPID JOIN DL_routes r on r.ROUTEID = t.ROUTEID JOIN DL_calendar c on t.VSID = c.VSID JOIN DL_stops stops ON s.STOPID = stops.STOPID WHERE STOPIDENTIFIER = :stopid AND c.VSCDATE = :vscdate AND SUBSTR(s.SEGMENTSTART,1,2) >= :starthour AND SUBSTR(s.SEGMENTSTART,1,2) <= :endhour", $arguments); //
+        $results = R::getAll("SELECT STOPIDENTIFIER,ROUTEPUBLICIDENTIFIER,SEGMENTSTART,SEGMENTEND,ROUTEDESCRPTION,ROUTEIDENTIFIER,VSCDATE FROM DL_segments s JOIN DL_trips t ON s.TRIPID = t.TRIPID JOIN DL_routes r on r.ROUTEID = t.ROUTEID JOIN DL_calendar c on t.VSID = c.VSID JOIN DL_stops stops ON s.STOPID = stops.STOPID WHERE STOPIDENTIFIER = :stopid AND STR_TO_DATE(CONCAT_WS(' ',c.VSCDATE, s.SEGMENTSTART),'%Y/%m/%d %h:%i') > from_unixtime(:starttime) ORDER BY STR_TO_DATE(CONCAT_WS(' ',c.VSCDATE, s.SEGMENTSTART),'%Y/%m/%d %h:%i') LIMIT 30", $arguments); //
         $stops = array();
         foreach($results as &$result){
             $stop = array();
