@@ -27,7 +27,7 @@ class DLLiveboard extends IRailLiveboard {
 //            $rtdata = $this->scrapeDeLijnRealtime($locid);
         }
         $data = $this->combineRT($data,$rtdata);
-
+        $data["location"] = DLStations::getStationFromId($locid);
         return $data;
     }
 

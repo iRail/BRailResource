@@ -51,7 +51,7 @@ class DLStations extends iRailStations {
     
     public static function getStationFromName($name, $lang = "en") {
         $arguments = array(":name" => urldecode($name));
-        $result = R::getAll("select STOPIDENTIFIER from delijn_stops where STOPDESCRPTION like '%:name%'",$arguments);
+        $result = R::getAll("select STOPIDENTIFIER from DL_stops where STOPDESCRPTION like '%:name%'",$arguments);
         if(isset($result[0])){
             return $result[0]["STOPIDENTIFIER"];
         }
@@ -60,9 +60,14 @@ class DLStations extends iRailStations {
 
     public static function getStationFromId($id, $lang = "en") {
         $arguments = array(":id" => $id);
-        $result = R::getAll("select STOPDESCRPTION from delijn_stops where STOPIDENTIFIER = :id",$arguments);
-        if(isset($result[0])){
-            return $result[0]["STOPDESCRPTION"];
+        $result = R::getAll("select STOPDESCRPTION, STOPCORDINATEX, STOPCORDINATEY from DL_stops where STOPIDENTIFIER = :id",$arguments);
+        foreach($result as $r){
+            $res = array();
+            $res["name"] = $r["STOPDESCRPTION"];
+            $location = tools::LambertToWGS84($r["STOPCORDINATEX"],$r["STOPCORDINATEY"]);
+            $res["longitude"] = $location[1];
+            $res["latitude"] = $location[0];
+            return $res;
         }
         return "";
     }
