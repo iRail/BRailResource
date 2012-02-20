@@ -18,35 +18,28 @@ class AirportsStations extends iRailStations {
      * Does Open Street Map has a SPARQL end-point?
      */
     public function call() {
-        // TODO
-        $o = new StdClass();
-        return $o;
+        $result = R::getAll("select code,name from Airports_stops",array());
+        $results = array();
+        foreach($result as &$row){
+            $station = array();
+            $station["code"] = $row["code"];
+            $station["name"] = $row["name"];
+            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "Airports/Liveboard/" . $station["code"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
+            $results[] = $station;
+        }
+        return $results;
     }
     
     public static function getAirportFromCode($code) {
-        $url = "http://www.webservicex.net/airport.asmx/getAirportInformationByAirportCode?airportCode=".$code;
-        
-        $request = TDT::HttpRequest($url);
-        if (isset($request->error)) {
-            throw new HttpOutTDTException($url);
+        $arguments = array(":code" => $code);
+        $result = R::getAll("select name from Airports_stops where code = :code",$arguments);
+        foreach($result as $r){
+            $res = array();
+            $res["name"] = $r["name"];
+            $res["code"] = $code;
+            return $res;
         }
-        
-        $data = new SimpleXMLElement(html_entity_decode($request->data));
-        $node = $data->NewDataSet->Table[0];
-        
-        $airport = new stdClass();
-        $airport->code = (string) $node->AirportCode;
-        $airport->country = (string) $node->Country;
-        $airport->name = ucwords(strtolower($node->CityOrAirportName));
-        $airport->latitude = (double) ($node->LatitudeDegree.".".$node->LatitudeMinute.$node->LatitudeSecond);
-        $airport->longitude = (double) ($node->LongitudeDegree.".".$node->LongitudeMinute.$node->LongitudeSecond);
-        
-        if($node->LatitudeNpeerS == "Z")
-            $airport->latitude *= -1;
-        if($node->LongitudeEperW == "W")
-            $airport->longitude *= -1;
-        
-        return $airport;
+        return "";
     }
 }
 

@@ -9,7 +9,7 @@
  */
 
 include_once ("custom/packages/iRailLiveboard.class.php");
-//include_once ("Stations.class.php");
+include_once ("custom/packages/Airports/Stations.class.php");
 
 class AirportsLiveboard extends iRailLiveboard {
     
@@ -57,6 +57,8 @@ class AirportsLiveboard extends iRailLiveboard {
                 }
                 
                 $destination = (string) $flight->Destination["Name"];
+                $destinationcode = (string) $flight->Destination["AirportCode"];
+                $airport = AirportsStations::getAirportFromCode($destinationcode);
             } else {
                 $offset = $flight["ArrivalAirportTimeZoneOffset"];
                 if (substr($offset, 0, 1) == "-") {
@@ -98,6 +100,8 @@ class AirportsLiveboard extends iRailLiveboard {
             $item->iso8601 = $published->format(DateTime::ISO8601);
             $item->delay = $delay;
             $item->direction = $destination;
+            $item->airport = $airport;
+            $item->airportcode = $destinationcode;
             $item->vehicle = $vehicle;
             
             $liveboard[] = $item;
