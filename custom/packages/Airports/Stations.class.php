@@ -36,11 +36,15 @@ class AirportsStations extends iRailStations {
     
     public static function getAirportFromCode($code) {
         $arguments = array(":code" => $code);
-        $result = R::getAll("select name from Airports_stops where code = :code",$arguments);
+        $result = R::getAll("select * from Airports_stops where code = :code",$arguments);
         foreach($result as $r){
             $res = array();
             $res["name"] = $r["name"];
             $res["code"] = $code;
+            $res["city"] = $row["city"];
+            $res["country"] = $row["country"];
+            $res["longitude"] = $row["longitude"];
+            $res["latitude"] = $row["latitude"];
             return $res;
         }
         return "";
