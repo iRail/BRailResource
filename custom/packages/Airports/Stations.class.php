@@ -41,10 +41,10 @@ class AirportsStations extends iRailStations {
             $res = array();
             $res["name"] = $r["name"];
             $res["code"] = $code;
-            $res["city"] = $row["city"];
-            $res["country"] = $row["country"];
-            $res["longitude"] = $row["longitude"];
-            $res["latitude"] = $row["latitude"];
+            $res["city"] = $r["city"];
+            $res["country"] = $r["country"];
+            $res["longitude"] = $r["longitude"];
+            $res["latitude"] = $r["latitude"];
             return $res;
         }
         return "";
