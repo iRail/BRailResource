@@ -18,12 +18,16 @@ class AirportsStations extends iRailStations {
      * Does Open Street Map has a SPARQL end-point?
      */
     public function call() {
-        $result = R::getAll("select code,name from Airports_stops",array());
+        $result = R::getAll("select * from Airports_stops",array());
         $results = array();
         foreach($result as &$row){
             $station = array();
             $station["code"] = $row["code"];
             $station["name"] = $row["name"];
+            $station["city"] = $row["city"];
+            $station["country"] = $row["country"];
+            $station["longitude"] = $row["longitude"];
+            $station["latitude"] = $row["latitude"];
             $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "Airports/Liveboard/" . $station["code"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
             $results[] = $station;
         }
