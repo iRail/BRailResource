@@ -18,20 +18,21 @@ class NMBSStations extends iRailStations {
      * Does Open Street Map has a SPARQL end-point?
      */
     public function call() {
-        // TODO
+        $arguments = array();
         date_default_timezone_set("Europe/Brussels");
-        $stations = array();
-        foreach(iRailTools::$railtimenames as $id => $name){
+        $result = R::getAll("select * from NMBS_stops",$arguments);
+        $results = array();
+        foreach($result as &$row){
             $station = array();
-            $station["id"] = $id;
-            $station["name"] = $name;
-            $station["longitude"] = 0.0;
-            $station["latitude"] = 0.0;
-            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "NMBS/Liveboard/" . urlencode($station["name"]) . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date ("i");
-            $stations[] = $station;
+            $station["id"] = $row["ID"];
+            $station["name"] = $row["name"];
+            $station["longitude"] = $row["longitude"];
+            $station["latitude"] = $row["latitude"];
+            $station["departures"] = Config::$HOSTNAME . Config::$SUBDIR . "NMBS/Liveboard/" . $station["name"] . "/" . date("Y") . "/" . date("m"). "/" .date("d") . "/" . date("H") . "/" .date("i");
+            $results[] = $station;
         }
         date_default_timezone_set("UTC");
-        return $stations;
+        return $results;
     }
     
     public static function getStationFromName($name, $lang = "en") {
