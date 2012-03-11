@@ -18,45 +18,17 @@ class NMBSConnections extends iRailConnections {
     
     public function __construct() {
         parent::__construct();
-        $this->typeOfTransport = "train";
         //standard number of results to fetch from Hafas
         $this->results = 6;
     }
-    
-    public static function getParameters() {
-        $parameters = parent::getParameters();
-        $parameters["typeOfTransport"] = "Allowed modes of transport separated by a semicolon eg: bus;train;taxi";
-        return $parameters;
-    }
-    
-    public function setParameter($key, $val) {
-        if ($key == "typeOfTransport" && $val != "") {
-            if (is_array($val))
-                $this->typeOfTransport = implode(";", $val);
-            else
-                $this->typeOfTransport = $val;
-        }
-        else {
-            parent::setParameter($key, $val);
-        }
-    }
-    
     public function call() {
         return $this->connectionsBetween($this->from, $this->to);
     }
     
     public function connectionsBetween($from, $to){
         $stations = NMBSStations::getStationsFromName(array($from, $to));
-        
         $url = "http://hari.b-rail.be/Hafas/bin/extxml.exe";
-        
-        if ($this->typeOfTransport == "trains") {
-            $trainsonly = "0111111000000000";
-        } else if ($this->typeOfTransport == "all") {
-            $trainsonly = "1111111111111111";
-        } else {
-            $trainsonly = "0111111000000000";
-        }
+        $trainsonly = "0111111000000000";
         
         if ($this->timeSel == "departure") {
             $timeSel = 0;

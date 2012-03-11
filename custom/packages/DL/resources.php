@@ -9,6 +9,7 @@ class DL{
      public static $resources = array (
 	  "Stations",
 	  "Liveboard",
+	  "Municipals",
 //          "Connections",
 //          "Vehicle"
 	  );
