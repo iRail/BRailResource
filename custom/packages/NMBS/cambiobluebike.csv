@@ -1,0 +1,54 @@
+region;station;cambio;numberofcars;bluebikes
+VLA;Aarschot;xx;0;yes
+VLA;Antwerpen-Berchem;Posthoflei-Station;4;no
+VLA;Antwerpen-Berchem;Qpark Berchem;4;no
+VLA;Antwerpen-Centraal;Kievit-Station;7;yes
+WAL;Arlon ;Arlon-Gare;1;no
+VLA;Asse;xx;0;yes
+VLA;Beernem;xx;0;yes
+VLA;Brugge Station;Brugge Station;2;yes
+BXL;BXL Centraal;xx;0;yes
+BXL;BXL Luxemburg;Luxemburg;2;yes
+BXL;BXL Midi/Zuid;Midi;3;yes
+BXL;BXL Noord;xx;0;yes
+WAL;Charleroi;Charleroi-Gare;1;no
+WAL;Ciney ;Ciney-Gare;1;no
+VLA;Deinze;xx;0;yes
+VLA;Diest;xx;0;yes
+BXL;Etterbeek station;Etterbeek Station;1;no
+VLA;Genk;Genk Station;3;yes
+VLA;Gent-Dampoort;Dampoort-station;3;yes
+VLA;Gent-Sint-Pieters;B-Parking Gent-St-P;2;yes
+VLA;Gent-Sint-Pieters;Hendrika;6;no
+VLA;Halle;xx;0;yes
+VLA;Hasselt Station;Hasselt Station;1;yes
+VLA;Herentals;xx;0;yes
+VLA;Kortrijk;Kortrijk-Station;1;yes
+VLA;Leuven;Leuven-Station;6;yes
+VLA;Leuven;Werkhuizenstraat;2;no
+WAL;Liege-Guillemins;Guillemins-Gare;3;yes
+WAL;Liege-Guillemins;Varin;1;no
+WAL;Liege-Palais;Palais;3;no
+VLA;Lier;Lier-Station;1;yes
+VLA;Lokeren;xx;0;yes
+VLA;Londerzeel;xx;0;yes
+WAL;Louvain-la-Neuve;LLN-Gare;4;no
+VLA;Mechelen;xx;0;yes
+VLA;Mol;xx;0;yes
+WAL;Mons;Mons-Gare;3;yes
+VLA;Mortsel;xx;0;yes
+WAL;Namur;Namur-Gare;2;yes
+WAL;Namur;Nord;1;no
+WAL;Namur;Porte De Fer;3;no
+WAL;Namur;Moncrabeau;2;no
+WAL;Ottignies;Ottignies-Gare;2;yes
+VLA;Roeselare;xx;0;yes
+BXL;Schaarbeek station;Elisabeth;2;no
+VLA;Sint-Niklaas;St-Niklaas station;1;yes
+BXL;BXL Weststation;Gare de l'Ouest;2;no
+VLA;Sint-Truiden;xx;0;yes
+VLA;Torhout;xx;0;yes
+VLA;Turnhout;xx;0;yes
+VLA;Vilvoorde;xx;0;yes
+VLA;Waregem;xx;0;yes
+VLA;Zottegem;xx;0;yes
