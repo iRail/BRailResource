@@ -1,7 +1,6 @@
 <?php
-
 include_once("custom/packages/DL/tools.php");
-class ParkingsBrussels extends AResource{
+class ParkingsBrussels extends AReader{
      public static function getRequiredParameters(){
 	  return array(); 
      }
@@ -11,15 +10,12 @@ class ParkingsBrussels extends AResource{
      }
 
      public static function getDoc(){
-	  return "This resource contains real-time information on parkings in Brussels thanks to irisnet.be";
-	  
+	  return "This resource contains real-time information on parkings in Brussels thanks to irisnet.be";	  
      }
      
      public function setParameter($key,$val){
      }
-     
-
-     public function call(){
+     public function read(){
          $data = TDT::HttpRequest("http://www.mobielbrussel.irisnet.be/static/categories_files/parkings.json");
          $object = json_decode($data->data);
          foreach($object->features as &$element){
@@ -37,12 +33,9 @@ class ParkingsBrussels extends AResource{
              $element->total_places = $element->properties->total_places;
              unset($element->properties);
              unset($element->geometry);
+             unset($element->type);
          }
          return $object->features;
-         
      }
-
-     
 }
 ?>
-

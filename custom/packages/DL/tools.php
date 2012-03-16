@@ -1,15 +1,7 @@
 <?php
-//echo "(103813,192053)<br/>\n";
-//var_dump(tools::LambertToWGS84(103813,192053));
-//$arr  = tools::LambertToWGS84(103813,192053);
-//echo "\n<br>";
-//var_dump(tools::WGS84ToLambert($arr[0],$arr[1]));
-
 class tools{
-
      //Lambert transformation algorithm constants
      private static $a,$f,$x0,$y0,$e,$p0,$p1,$p2,$l0,$m1,$m2,$t1 ,$t2 ,$t0 ,$n,$g ,$r0;
-
 //Initiate constants
      private static function initvars(){
 	  tools::$a=6378388;
@@ -40,7 +32,7 @@ class tools{
 	  $lambda = ($theta/tools::$n)+tools::$l0;
 	  $phi = pi()/2 - 2 * atan($t);//this is a wild guess
 	  //we're going to make this guess better on each iteration
-	  for($i = 0; $i< 10; $i++){ //10 ought to be enough for anyone?
+	  for($i = 0; $i< 20; $i++){ //20 ought to be enough for anyone?
 	       $phi = pi()/2 - 2 * atan($t * pow((1-tools::$e*sin($phi))/(1+tools::$e*sin($phi)), tools::$e/2));
 	  }
 	  return array(rad2deg($phi),rad2deg($lambda));
@@ -59,5 +51,4 @@ class tools{
 	  return array($x,$y);
      }
 }
-
 ?>
