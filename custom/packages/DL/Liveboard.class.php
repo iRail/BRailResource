@@ -141,7 +141,7 @@ class DLLiveboard extends IRailLiveboard {
     }
 
     private function combineRT($data,$rtdata){
-        return array("departures" => $data, "real-time" => $rtdata);
+        return array("departures" => $data);
     }
 }
 
