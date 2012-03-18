@@ -12,7 +12,7 @@ include_once("custom/packages/NMBS/Stations.class.php");
 include_once("custom/packages/iRailLiveboard.class.php");
 
 class NMBSLiveboard extends IRailLiveboard {
-    
+
     public function call() {
         $o = new stdClass();
         $station = NMBSStations::getStationFromName($this->location, $this->lang);

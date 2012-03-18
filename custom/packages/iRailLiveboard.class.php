@@ -23,19 +23,15 @@ abstract class iRailLiveboard extends AbstractiRailResource {
                      "day"=> "DD - 2 digits describing the day of the liveboard",
                      "hour"=> "HH - 2 digits describing the hour of the liveboard.",
                      "minutes"=> "II - 2 digits describing the minutes of the liveboard",
-                     "direction" => "Do you want to have the 'arrivals' or the 'departures' (default)"
         );
     }
-    
+
     public static function getRequiredParameters() {
         return array("location","year","month","day","hour","minutes");
     }
     
     public function setParameter($key, $val) {
         $this->$key=$val;
-        if($key == "direction" && ($val != "arrivals" || $val != "departures")){
-            $this->direction = "departures";
-        }
     }
     
     public static function getDoc() {
