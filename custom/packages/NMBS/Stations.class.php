@@ -57,7 +57,8 @@ class NMBSStations extends iRailStations {
     
     public static function getStationsFromName($names, $lang = "en") {
         $url = "http://hari.b-rail.be/Hafas/bin/extxml.exe";
-        
+        $name = str_ireplace("south", "zuid", $name);
+        $name = str_ireplace("north", "noord", $name);
         $post = '<?xml version="1.0 encoding="iso-8859-1"?>
         		 	<ReqC ver="1.1" prod="iRail API v1.0" lang="' . $lang . '">';
         
