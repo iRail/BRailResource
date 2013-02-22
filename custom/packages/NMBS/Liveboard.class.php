@@ -18,7 +18,7 @@ class NMBSLiveboard extends IRailLiveboard {
         $station = NMBSStations::getStationFromName($this->location, $this->lang);
         $stationId = $station->id;
         
-        // remove unwatend properties
+        // remove unwanted properties
         unset($station->type);
         unset($station->id);
         $o->location = $station;
