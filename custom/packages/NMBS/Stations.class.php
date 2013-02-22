@@ -87,7 +87,7 @@ class NMBSStations extends iRailStations {
             $station = new stdClass();
             
             $name = (string) $elem->Station["name"];
-            $name = str_replace(array(" [B]", " (nl)", " (fr)", " (de), " [NMBS/SNCB]"), "", $name);
+            $name = str_replace(array(" [B]", " (nl)", " (fr)", " (de)", " [NMBS/SNCB]"), "", $name);
             
             $station->name = $name;
             $station->id = (string) $elem->Station["externalStationNr"];
