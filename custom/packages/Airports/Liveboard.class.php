@@ -82,6 +82,8 @@ class AirportsLiveboard extends iRailLiveboard {
                 }
 
                 $destination = (string) $flight->Origin["Name"];
+                $destinationcode = (string) $flight->Origin["AirportCode"];
+                $airport = AirportsStations::getAirportFromCode($destinationcode);
             }
             
             $time = $published->getTimestamp();
