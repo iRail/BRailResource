@@ -51,7 +51,7 @@ class NMBSLiveboard extends IRailLiveboard {
         
         $i = 0;
         // check first departure
-        $departure = DateTime::createFromFormat('d/m/y H:i e', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"] . " " . "Europe/Brussels");
+        $departure = DateTime::createFromFormat('d/m/Y H:i e', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"] . " " . "Europe/Brussels");
         
         while (isset($data->Journey[$i])){// && $departure <= $enddatetime) {
             $journey = $data->Journey[$i];
@@ -106,7 +106,7 @@ class NMBSLiveboard extends IRailLiveboard {
             
             // detect next departure if there is one
             if(isset($data->Journey[$i])){
-                $departure = DateTime::createFromFormat('d/m/y H:i e', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"] . " " . "Europe/Brussels");
+                $departure = DateTime::createFromFormat('d/m/Y H:i e', $data->Journey[$i]["fpDate"]." ".$data->Journey[$i]["fpTime"] . " " . "Europe/Brussels");
             }
             
         }
